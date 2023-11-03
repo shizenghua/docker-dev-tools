@@ -1,0 +1,25 @@
+version: "3"
+services:
+  go:
+    image: go
+    container_name: go
+    build:
+      context: ./
+      args:
+        GO_VERSION: golang:${GO_VERSION}-alpine3.17
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        TZ: ${TIMEZONE}
+    ports:
+      - ${GO_HOST_PORT}:3000
+    privileged: true
+    restart: always
+    tty: true
+    volumes:
+      - ${SOURCE_DIR}:/app/:rw
+    networks:
+      - docker-network
+    cap_add:
+      - SYS_PTRACE
+networks:
+    docker-network:
+        external: true

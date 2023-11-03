@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mysql8:
+    image: mysql:${MYSQL8_VERSION}
+    privileged: true
+    restart: always
+    container_name: mysql8
+    environment:
+      TZ: ${TIMEZONE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL8_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL8_ROOT_HOST}
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+    ports:
+      - ${MYSQL8_HOST_PORT}:3306
+    volumes:
+      - ${MYSQL8_CONF_FILE}:/etc/my.cnf:ro
+      - ${MYSQL8_DATA_DIR}:/var/lib/mysql/:rw
+      - ${MYSQL8_LOG_DIR}:/var/log/mysql/:rw
+    networks:
+      - docker-network
+networks:
+    docker-network:
+        external: true

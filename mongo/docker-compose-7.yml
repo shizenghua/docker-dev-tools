@@ -1,0 +1,20 @@
+version: "3"
+services:
+    mongo7:
+        image: mongo:${MONGO7_VERSION}
+        privileged: true
+        restart: always
+        container_name: mongo7
+        environment:
+          MONGO_INITDB_ROOT_PASSWORD: ${MONGO7_INITDB_ROOT_PASSWORD}
+          MONGO_INITDB_ROOT_USERNAME: ${MONGO7_INITDB_ROOT_USERNAME}
+          TZ: ${TIMEZONE}
+        ports:
+            - ${MONGO7_HOST_PORT}:27017
+        volumes:
+            - ${MONGO7_DATA_DIR}:/data/db:rw
+        networks:
+            - docker-network
+networks:
+    docker-network:
+        external: true
