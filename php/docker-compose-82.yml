@@ -7,12 +7,12 @@ services:
     networks:
       - docker-network
     build:
-      context: ./build/php82
+      context: ./build/
+      dockerfile: ./php82/Dockerfile
       args:
         PHP_VERSION: php:${PHP82_VERSION}-fpm-alpine
         CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
         PHP_EXTENSIONS: ${PHP82_EXTENSIONS}
-        INSTALL_APPS: ${PHP82_INSTALL_APPS}
         TZ: ${TIMEZONE}
     volumes:
     - ${PHP82_SSH_DIR}:/root/.ssh
@@ -22,7 +22,7 @@ services:
     - ${PHP82_LOG_DIR}:/var/log/php
     - ${PHP82_COMPOSER_DIR}:/tmp/composer
     ports:
-      - 9000:9000
+      - 9820:9000
       - 60503:60503
     cap_add:
       - SYS_PTRACE
