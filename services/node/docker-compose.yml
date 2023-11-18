@@ -1,0 +1,25 @@
+version: "3"
+services:
+  node:
+    image: node
+    container_name: ${NODE_CONTAINER_NAME}
+    build:
+      context: ./
+      args:
+        NODE_VERSION: node:${NODE_VERSION}
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        TZ: ${TIMEZONE}
+    ports:
+      - ${NODE_HOST_PORT}:${NODE_HOST_PORT_I}
+    privileged: true
+    restart: always
+    tty: true
+    volumes:
+      - ${SOURCE_DIR}:/www/:rw
+    networks:
+      - docker-network
+    cap_add:
+      - SYS_PTRACE
+networks:
+    docker-network:
+        external: true

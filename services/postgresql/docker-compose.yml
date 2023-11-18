@@ -1,0 +1,33 @@
+version: "3.3"
+services:
+    postgres:
+      image: postgres:${POSTGRES_VERSION}
+      privileged: true
+      restart: always
+      container_name: ${POSTGRES_CONTAINER_NAME}
+      environment:
+        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      ports:
+        - ${POSTGRES_HOST_PORT}:5432
+      volumes:
+        - ${POSTGRES_DATA}:/var/lib/postgresql/data:rw
+      networks:
+        - docker-network
+    pgadmin4:
+      image: dpage/pgadmin4:${PGADMIN4_VERSION}
+      privileged: true
+      restart: always
+      container_name: pgadmin4
+      environment:
+        PGADMIN_DEFAULT_EMAIL: ${PGADMIN4_DEFAULT_EMAIL}
+        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN4_DEFAULT_PASSWORD}
+      ports:
+        - ${PGADMIN4_HOST_PORT}:80
+      volumes:
+        - ${PGADMIN4_DATA}:/var/lib/pgadmin
+      networks:
+        - docker-network
+      user: root  
+networks:
+    docker-network:
+        external: true

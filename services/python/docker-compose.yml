@@ -1,0 +1,25 @@
+version: "3"
+services:
+  python3:
+    image: python3
+    container_name: python3
+    build:
+      context: ./
+      args:
+        PYTHON3_VERSION: python:${PYTHON3_VERSION}
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        TZ: ${TIMEZONE}
+    privileged: true
+    restart: always
+    tty: true
+    ports:
+        - ${PYTHON3_HOST_PORT}:${PYTHON3_HOST_PORT_I}
+    volumes:
+      - ${SOURCE_DIR}:/www/:rw
+    networks:
+      - docker-network
+    cap_add:
+      - SYS_PTRACE
+networks:
+    docker-network:
+        external: true
